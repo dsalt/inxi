@@ -13022,12 +13022,16 @@ print_graphics_data()
 		if [[ -z $glx_renderer ]];then
 			glx_renderer='N/A'
 		fi
-		if [[ -z $glx_version ]];then
-			glx_version='N/A'
+		if [[ -z $glx_core_version ]];then
+			if [[ -z $glx_version ]];then
+				glx_core_version='N/A'
+			else
+				glx_core_version="$glx_version"
+			fi
 		else
 			if [[ $B_EXTRA_EXTRA_DATA == 'true' ]];then
 				if [[ $glx_core_version_nu != '' && $glx_core_version != '' && $glx_core_version != $glx_version ]];then
-					glx_version=" $glx_version (oglcv$SEP3 $glx_core_version_nu)"
+					glx_core_version="$glx_core_version (oglcv$SEP3 $glx_core_version_nu)"
 				fi
 			fi
 		fi
@@ -13038,7 +13042,7 @@ print_graphics_data()
 			direct_render_string=" ${C1}Direct Rendering$SEP3${C2} $direct_rendering"
 		fi
 		part_1_data="${C1}GLX Renderer$SEP3${C2} $glx_renderer "
-		part_2_data="${C1}GLX Version$SEP3${C2} $glx_version$direct_render_string"
+		part_2_data="${C1}GLX Version$SEP3${C2} $glx_core_version$direct_render_string"
 		# echo $line_starter
 		if [[ $( calculate_line_length "$part_1_data$part_2_data" ) -gt $COLS_INNER ]];then
 			graphics_data=$( create_print_line "$line_starter" "$part_1_data" )
